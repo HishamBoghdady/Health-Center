@@ -1,0 +1,35 @@
+.patient-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.patient-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.patient-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* للشاشات الصغيرة يكون عمود واحد */
+@media (max-width: 768px) {
+    .patient-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-image {
+        justify-self: start;
+    }
+
+    .patient-image img {
+        max-width: 120px;
+        /* تصغير الصورة */
+        height: auto;
+    }
+}
