@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { ProvInfoUse } from "../context/ContextData";
 import {SchemeDB} from "../context/StructureData"
-
+import { Getsum } from "../utils/CollectionMoney";
 import CollectionDate from "../utils/CollectionDate"
 import CheckMoney from '../utils/CollectionOwed';
 // 
@@ -11,6 +11,7 @@ import {addPatient,getPatients} from "../firebase/Firebase.config"
 export default function EntryDB() {
     const [info, Setinfo] = useState(SchemeDB)
     const {patient, setPatient} = ProvInfoUse()
+const [addMoneyDetail, setAddDetailMoney] = useState({ PaymentDate: '', AmountPaid: '' })
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -67,18 +68,21 @@ export default function EntryDB() {
                 ApprovalSession: info.AdmissionApplicant.ApprovalSession
             },
             ExitData: {ExitTime: null,ReasonExit: ''},
-            FinancialData: {NumberDays: null,NumberSession: null,AmountPaid: null,AmountOwed: null},
-            PaymentsDetails: [],
+            FinancialData: {NumberDays: null,NumberSession: null,AmountPaid: Getsum({ PaymentsDetails: [addMoneyDetail] }),AmountOwed: null},
+            PaymentsDetails: [addMoneyDetail],
             SessionDetails: []
         }
         const newperson = [...patient, PatientAdd]
         localStorage.setItem("Patient",JSON.stringify(newperson))
+        setAddDetailMoney({ PaymentDate: '', AmountPaid: '' })
+        Setinfo(SchemeDB)
         setPatient(newperson)
+
         // حفظ في Firestore
         addPatient(PatientAdd)
             .then(() => console.log("✅ تمت الإضافة في Firestore"))
             .catch((err) => console.error("❌ خطأ في إضافة المريض:", err));
-        Setinfo(SchemeDB)
+        
     }
 
     return (
@@ -265,6 +269,23 @@ export default function EntryDB() {
                                 <option value="No">لا</option>
                             </select>
                         </div>
+                    </div>
+                </section>
+                 <section className="section">
+                    <h2>دفع اولي</h2>
+                    <div className="form-grid">
+                        <div className="form-group" id="EntryTime">
+                            <label htmlFor="entry-date" className="colorRed"> تاريخ الدفع</label>
+                            <input type="date" id="entry-date" value={addMoneyDetail.PaymentDate}
+                                onChange={(e) => { setAddDetailMoney(prev => ({ ...prev, PaymentDate: e.target.value })) }}/>
+                        </div>
+
+                        <div className="form-group" id="EntryTime">
+                            <label htmlFor="entry-date" className="colorRed">مبلغ الدفع</label>
+                            <input type="number" id="entry-date" value={addMoneyDetail.AmountPaid}
+                                onChange={(e) => { setAddDetailMoney(prev => ({ ...prev, AmountPaid: e.target.value })) }} />
+                        </div>
+
                     </div>
                 </section>
                 <button className="btn btn-primary" onClick={HandleAddPatient}><i className="bi bi-person-plus"  style={{fontStyle:"normal"}}>  Add</i></button>

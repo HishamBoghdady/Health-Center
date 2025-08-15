@@ -94,10 +94,13 @@ export default function Search() {
 // ❌==========================End✅=>:(Dell Section)==========================❌ //
 
 //--------------------------------------------Rows Data--------------------------------------------//
-    const flatData = useMemo(() => {
-        return filteredPatients.map((e, index) => ({
+const flatData = useMemo(() => {
+    return filteredPatients
+        .slice() // نسخة حتى لا نعدل الأصل
+        .sort((a, b) => new Date(a.EnteryData.EntryTime) - new Date(b.EnteryData.EntryTime)) // ترتيب حسب الإضافة (الأقدم أول)
+        .map((e, index) => ({
             id: e.id,
-            Num: index + 1,
+            Num: index + 1, // رقم متسلسل مضبوط بعد الترتيب
             EntryTime: splitDateTime(e.EnteryData.EntryTime).date,
             Name: e.PersonalData.Name,
             Address: e.PersonalData.Address,
@@ -106,17 +109,44 @@ export default function Search() {
             AmountOwed: e.FinancialData.AmountOwed,
             TypeDiseas: e.EnteryData.TypeDiseas,
             Condition: e.EnteryData.Condition,
-            FullData: e, // بيانات إضافية لا تُعرض بالجدول لكنها تُستخدم
+            FullData: e,
         }));
-    }, [filteredPatients]);
+}, [filteredPatients]);
+
+    // const flatData = useMemo(() => {
+    //     return filteredPatients.map((e, index) => ({
+    //         id: e.id,
+    //         Num: index + 1,
+    //         EntryTime: splitDateTime(e.EnteryData.EntryTime).date,
+    //         Name: e.PersonalData.Name,
+    //         Address: e.PersonalData.Address,
+    //         NumberDays: e.FinancialData.NumberDays,
+    //         AmountPaid: e.FinancialData.AmountPaid,
+    //         AmountOwed: e.FinancialData.AmountOwed,
+    //         TypeDiseas: e.EnteryData.TypeDiseas,
+    //         Condition: e.EnteryData.Condition,
+    //         FullData: e, // بيانات إضافية لا تُعرض بالجدول لكنها تُستخدم
+    //     }));
+    // }, [filteredPatients]);
+
 //--------------------------------------------Columns--------------------------------------------//
+function color(num) {
+    if (num <= 5000) {
+        return 'black';
+    } else if (num <= 9000 && num > 5000) {
+        return 'red';
+    } else {
+        return 'blue';
+    }
+}
     const columns = [
         { field: 'Num', headerName: 'م', width: 50 },
         { field: 'Name', headerName: 'الاسم', width: 150 },
         { field: 'EntryTime', headerName: 'تاريخ الدخول', width: 130 },
         { field: 'NumberDays', headerName: 'عدد الأيام', width: 100 },
         { field: 'AmountPaid', headerName: 'المدفوع', width: 80 },
-        { field: 'AmountOwed', headerName: 'المتبقي', width: 80 },
+        { field: 'AmountOwed', headerName: 'المتبقي', width: 80 ,
+            renderCell: (params) => (<p style={{ color: color(params.value) }}>{params.value}</p>)},
         { field: 'TypeDiseas', headerName: 'نوع الحالة', width: 120 },
         { field: 'Address', headerName: 'العنوان', width: 120 },
         { field: 'Condition', headerName: 'الحالة', width: 60 },

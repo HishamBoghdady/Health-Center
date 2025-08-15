@@ -16,7 +16,7 @@ function HandleExit(){
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           
-          <Link to="/dashpoard/about"><img src="../../public/Elmanar.jpg" alt="" className="LOGO" /></Link>
+          <Link to="/dashpoard/about"><img src="/Elmanar.jpg" alt="" className="LOGO" /></Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
