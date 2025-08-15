@@ -56,7 +56,7 @@ function Login() {
           {/*------------------------- Left Box ---------------------------*/}
           <div className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style={{ background: "#103cbe" }}>
             <div className="featured-image mb-3">
-              <img src="../../public/1.png" className="img-fluid" style={{ width: 250 }} />
+              <img src="/public/الادمان.png" className="img-fluid" style={{ width: 250 }} />
             </div>
             <p className="text-white fs-2" style={{ fontFamily: '"Courier New", Courier, monospace', fontWeight: 600 }}>
               Be Verified
