@@ -6,7 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UpdateIcon from '@mui/icons-material/Update';
 import DescriptionIcon from '@mui/icons-material/Description';
-
+// 
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import BadgeIcon from '@mui/icons-material/Badge';
+import HomeIcon from '@mui/icons-material/Home';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+// 
 import { ProvInfoUse } from '../context/ContextData';
 import CollectionDate from "../utils/CollectionDate"
 import CheckMoney from '../utils/CollectionOwed';
@@ -139,18 +144,31 @@ function color(num) {
         return 'blue';
     }
 }
+// 
+let BKcolor='#f8edeb'
+let FTcolor='brown'
+// 
     const columns = [
-        { field: 'Num', headerName: 'م', width: 50 },
-        { field: 'Name', headerName: 'الاسم', width: 150 },
-        { field: 'EntryTime', headerName: 'تاريخ الدخول', width: 130 },
-        { field: 'NumberDays', headerName: 'عدد الأيام', width: 100 },
-        { field: 'AmountPaid', headerName: 'المدفوع', width: 80 },
+        { field: 'Num', headerName: 'م', width: 50 ,
+            renderCell: (params) => (<div style={{  textAlign:'right'}}>{params.value}</div>)},
+        { field: 'Name', headerName: <BadgeIcon/> /*'الاسم'*/, width: 150 , 
+            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
+        { field: 'EntryTime', headerName: <CalendarMonthIcon/> /*'تاريخ الدخول'*/, width: 130 , 
+            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
+        { field: 'NumberDays', headerName: 'عدد الأيام', width: 100 , 
+            renderCell: (params) => (<div style={{  textAlign:'center' , backgroundColor:BKcolor}}>{params.value}</div>) },
+        { field: 'AmountPaid', headerName: 'المدفوع', width: 80 ,
+            renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)},
         { field: 'AmountOwed', headerName: 'المتبقي', width: 80 ,
-            renderCell: (params) => (<p style={{ color: color(params.value) }}>{params.value}</p>)},
-        { field: 'TypeDiseas', headerName: 'نوع الحالة', width: 120 },
-        { field: 'Address', headerName: 'العنوان', width: 120 },
-        { field: 'Condition', headerName: 'الحالة', width: 60 },
-        { field: 'actions', headerName: 'إجراءات', width: 240,
+            renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:'#fae1dd' , color: color(params.value) }}>{params.value}</div>)},
+        { field: 'TypeDiseas', headerName: 'نوع الحالة', width: 120 ,
+            renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:BKcolor,color:FTcolor}}>{params.value}</div>)},
+        { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 120 ,
+            renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:BKcolor,color:FTcolor}}>{params.value}</div>)},
+        { field: 'Condition', headerName: 'الحالة', width: 60 ,
+            renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)
+        },
+        { field: 'actions', headerName: <ListAltIcon/>/*'إجراءات'*/, width: 240,
             
             renderCell: (params) => (
                 <Stack direction="row" spacing={1} gap={1}>
@@ -160,14 +178,14 @@ function color(num) {
                         <EditIcon />
                     </IconButton>
 
-                    <IconButton color="warning" size="small" onClick={() => handleOpenExit(params.row.id)}
-                            sx={{border:'1px solid #ED6C02',backgroundColor:'#ED6C0250'}}>
-                        <LogoutIcon/>
-                    </IconButton>
-                    
                     <IconButton color="success" size="small" onClick={() => handleOpenPatientDetails(params.row.id)}
                             sx={{border:'1px solid #2E7D32',backgroundColor:'#2E7D3250'}}>
                         <DescriptionIcon/>
+                    </IconButton>
+
+                    <IconButton color="warning" size="small" onClick={() => handleOpenExit(params.row.id)}
+                            sx={{border:'1px solid #ED6C02',backgroundColor:'#ED6C0250'}}>
+                        <LogoutIcon/>
                     </IconButton>
                     
                     <IconButton color="error" size="small" onClick={() => handleOpenPatientDelete(params.row.id)}
@@ -190,7 +208,7 @@ function color(num) {
 
             {/*  Datatable  */}
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
-            sx={{ direction: 'rtl' ,fontWeight:'bold'}}/>
+            sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb'}}/>
 
             {/* Edit Dialog */}
             <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth maxWidth="md">
