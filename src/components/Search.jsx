@@ -146,13 +146,13 @@ function color(num) {
 }
 // 
 let BKcolor='#f8edeb'
-let FTcolor='brown'
+let FTcolor='#000'
 // 
     const columns = [
         { field: 'Num', headerName: 'م', width: 50 ,
             renderCell: (params) => (<div style={{  textAlign:'right'}}>{params.value}</div>)},
         { field: 'Name', headerName: <BadgeIcon/> /*'الاسم'*/, width: 150 , 
-            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor,fontWeight:'bold' }}>{params.value}</div>)},
         { field: 'EntryTime', headerName: <CalendarMonthIcon/> /*'تاريخ الدخول'*/, width: 130 , 
             renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
         { field: 'NumberDays', headerName: 'عدد الأيام', width: 100 , 
@@ -161,8 +161,8 @@ let FTcolor='brown'
             renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)},
         { field: 'AmountOwed', headerName: 'المتبقي', width: 80 ,
             renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:'#fae1dd' , color: color(params.value) }}>{params.value}</div>)},
-        { field: 'TypeDiseas', headerName: 'نوع الحالة', width: 120 ,
-            renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:BKcolor,color:FTcolor}}>{params.value}</div>)},
+        { field: 'TypeDiseas', headerName: 'التحاليل', width: 120 ,
+            renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:'#fae1dd',color:FTcolor}}>{params.value}</div>)},
         { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 120 ,
             renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:BKcolor,color:FTcolor}}>{params.value}</div>)},
         { field: 'Condition', headerName: 'الحالة', width: 60 ,
