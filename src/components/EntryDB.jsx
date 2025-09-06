@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { ProvInfoUse } from "../context/ContextData";
 import {SchemeDB} from "../context/StructureData"
-import { Getsum } from "../utils/CollectionMoney";
+
+import { GetsumMoney } from "../utils/CollectionMoney";
 import CollectionDate from "../utils/CollectionDate"
 import CheckMoney from '../utils/CollectionOwed';
 // 
@@ -68,7 +69,7 @@ const [addMoneyDetail, setAddDetailMoney] = useState({ PaymentDate: '', AmountPa
                 ApprovalSession: info.AdmissionApplicant.ApprovalSession
             },
             ExitData: {ExitTime: null,ReasonExit: ''},
-            FinancialData: {NumberDays: null,NumberSession: null,AmountPaid: Getsum({ PaymentsDetails: [addMoneyDetail] }),AmountOwed: null},
+            FinancialData: {NumberDays: null,NumberSession: null,AmountPaid: GetsumMoney({ PaymentsDetails: [addMoneyDetail] }),AmountOwed: null},
             PaymentsDetails: [addMoneyDetail],
             SessionDetails: []
         }

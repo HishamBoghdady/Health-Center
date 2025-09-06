@@ -1,5 +1,5 @@
 import { ProvInfoUse } from "../context/ContextData";
-import { Getsum } from "../utils/CollectionSession"
+import { GetsumSession } from "../utils/CollectionSession"
 import { useEffect, useState } from "react";
 import Styles from '../assets/MD_PersonSE.module.css'
 import splitDateTime from "../utils/DateSplit"
@@ -80,7 +80,7 @@ export default function Session() {
         const newSessionDetails = [...(e.SessionDetails || []), addSessionDetail];
         // احسب مجموع الجلسات باستخدام Getsum على الشخص المحدث
         const updatedPerson = { ...e, SessionDetails: newSessionDetails };
-        const newNumberSession = Getsum(updatedPerson);
+        const newNumberSession = GetsumSession(updatedPerson);
 
         // أعد الكائن النهائي مع FinancialData المحدث
         return { ...updatedPerson, FinancialData: { ...e.FinancialData, NumberSession: newNumberSession, }, };

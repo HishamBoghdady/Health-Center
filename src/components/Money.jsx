@@ -1,5 +1,5 @@
 import { ProvInfoUse } from "../context/ContextData";
-import { Getsum } from "../utils/CollectionMoney";
+import { GetsumMoney } from "../utils/CollectionMoney";
 import { useEffect, useState } from "react";
 import Styles from '../assets/MD_PersonSE.module.css'
 import splitDateTime from "../utils/DateSplit"
@@ -78,7 +78,7 @@ export default function Money() {
           ...e,
           PaymentsDetails: [...(e.PaymentsDetails || []), addMoneyDetail],
           FinancialData: {
-            ...e.FinancialData, AmountPaid: Getsum({
+            ...e.FinancialData, AmountPaid: GetsumMoney({
               ...e,
               PaymentsDetails: [...(e.PaymentsDetails || []), addMoneyDetail],
             }),
