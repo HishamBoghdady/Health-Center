@@ -2,17 +2,20 @@ import { useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import { ProvInfoUse } from "../context/ContextData";
 import {SchemeDB} from "../context/StructureData"
-
-import { GetsumMoney } from "../utils/CollectionMoney";
-import CollectionDate from "../utils/CollectionDate"
-import CheckMoney from '../utils/CollectionOwed';
-// 
+//---------------------
+// import  GetsumMoney  from "../utils/CollectionMoney";
+// import CollectionDate from "../utils/CollectionDate"
+// import CheckMoney from '../utils/CollectionOwed';
+import utilsFuncs from "../utils";
+// --------------------
 import {addPatient,getPatients} from "../firebase/Firebase.config"
 // 
 export default function EntryDB() {
+    const {GetsumMoney,CollectionDate,CheckMoney}=utilsFuncs()
+
     const [info, Setinfo] = useState(SchemeDB)
     const {patient, setPatient} = ProvInfoUse()
-const [addMoneyDetail, setAddDetailMoney] = useState({ PaymentDate: '', AmountPaid: '' })
+    const [addMoneyDetail, setAddDetailMoney] = useState({ PaymentDate: '', AmountPaid: '' })
 
     useEffect(()=>{
         const fetchData = async () => {

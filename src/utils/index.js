@@ -1,12 +1,16 @@
-import CollectionDate from "./CollectionDate";
-import { GetsumMoney } from "./CollectionMoney";
-import CheckMoney from "./CollectionOwed";
-// import { Getsum } from "./CollectionSession";
-import splitDateTime from "./DateSplit";
+import CollectionDate from "./functions/CollectionDate";
+import GetsumMoney from "./functions/CollectionMoney";
+import CheckMoney from "./functions/CollectionOwed";
+import GetsumSession from "./functions/CollectionSession";
+import splitDateTime from "./functions/DateSplit";
 
 export default function utilsFuncs() {
     return {
-        CollectionDate, GetsumMoney, CheckMoney, splitDateTime
+        CollectionDate,
+        GetsumMoney,
+        CheckMoney,
+        GetsumSession,
+        splitDateTime
     }
 }
 

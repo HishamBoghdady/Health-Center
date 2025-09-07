@@ -1,4 +1,4 @@
-export function GetsumSession(person) {
+export default function GetsumSession(person) {
     if (!person || !person.SessionDetails) return 0;
     const sum = person.SessionDetails.map(s => Number(s.NumberSession)).reduce((acc, curr) => acc + curr, 0);
 

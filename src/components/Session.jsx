@@ -1,14 +1,17 @@
-import { ProvInfoUse } from "../context/ContextData";
-import { GetsumSession } from "../utils/CollectionSession"
 import { useEffect, useState } from "react";
 import Styles from '../assets/MD_PersonSE.module.css'
-import splitDateTime from "../utils/DateSplit"
-// 
-import CollectionDate from "../utils/CollectionDate"
-import CheckMoney from '../utils/CollectionOwed';
+import { ProvInfoUse } from "../context/ContextData";
 import {updatePatient,getPatients} from "../firebase/Firebase.config"
+// 
+// import  GetsumSession  from "../utils/CollectionSession"
+// import splitDateTime from "../utils/DateSplit"
+// import CollectionDate from "../utils/CollectionDate"
+// import CheckMoney from '../utils/CollectionOwed';
+//-----
+import utilsFuncs from "../utils";
 //
 export default function Session() {
+  const {GetsumSession,splitDateTime,CollectionDate,CheckMoney}=utilsFuncs()
   const { patient, setPatient } = ProvInfoUse()
   const [querysearch, setQuerysearch] = useState("");
   const [PatientSed, setPatientSed] = useState({ name: '', date: '' })

@@ -2,19 +2,22 @@ import { useState, useMemo, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import {Button,Stack,Box,TextField,Dialog,DialogTitle,DialogContent,DialogActions,Grid,DialogContentText,IconButton} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import HomeIcon from '@mui/icons-material/Home';
+import BadgeIcon from '@mui/icons-material/Badge';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UpdateIcon from '@mui/icons-material/Update';
-import DescriptionIcon from '@mui/icons-material/Description';
-// 
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import BadgeIcon from '@mui/icons-material/Badge';
-import HomeIcon from '@mui/icons-material/Home';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // 
 import { ProvInfoUse } from '../context/ContextData';
-import CollectionDate from "../utils/CollectionDate"
-import CheckMoney from '../utils/CollectionOwed';
+// ------------------
+// import CollectionDate from "../utils/CollectionDate"
+// import CheckMoney from '../utils/CollectionOwed';
+import utilsFuncs from "../utils";
+
+//-------------------
 // import splitDateTime from '../utils/DateSplit';
 import "../assets/MD_Kashf.css"
 import {updatePatient as UP,getPatients,deletePatient} from "../firebase/Firebase.config"
@@ -26,6 +29,7 @@ const splitDateTime = (datetimeStr) => {
     return { date };
 };
 export default function Search() {
+    const {CollectionDate,CheckMoney}=utilsFuncs()
     const { patient, setPatient } = ProvInfoUse();
     
     const fetchData = async () => {
