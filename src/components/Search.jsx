@@ -10,6 +10,10 @@ import UpdateIcon from '@mui/icons-material/Update';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+
 // 
 import { ProvInfoUse } from '../context/ContextData';
 // ------------------
@@ -31,6 +35,7 @@ const splitDateTime = (datetimeStr) => {
 export default function Search() {
     const {CollectionDate,CheckMoney}=utilsFuncs()
     const { patient, setPatient } = ProvInfoUse();
+    const [tm,setTM] = useState("nnnnnnnnnll")
     
     const fetchData = async () => {
             try{
@@ -60,6 +65,9 @@ export default function Search() {
             }
         }
     // --------------------------------------------------
+    useEffect(()=>{
+       setTM(new Date().toLocaleString());
+    },[])
     useEffect(()=>{
         fetchData()
             // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -200,14 +208,34 @@ let FTcolor='#000'
             ),
         },
     ];
+    const card = (
+    <>
+        <CardContent>
+            <Typography variant="h3" component="div">
+                {tm}
+            </Typography>
+        </CardContent>
+    </>
+    );
     return (
+        
         <Box sx={{ width: '100%' }}>
             <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0'}}>
+
+                
+
                 <TextField label="Search" fullWidth variant="outlined" 
                 value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                 
                 <Button variant="outline" startIcon={<UpdateIcon fontSize={'large'}/>} onClick={fetchData}
                 sx={{backgroundColor:'green',color:'White',textAlign:'center',borderRadius:'20%'}}></Button>
+
+                
+            </Stack>
+            <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                <Box sx={{ minWidth: 275 }}>
+                    <Card variant="outlined">{card}</Card>
+                </Box>
             </Stack>
 
             {/*  Datatable  */}
