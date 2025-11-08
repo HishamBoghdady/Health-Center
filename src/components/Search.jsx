@@ -211,7 +211,7 @@ let FTcolor='#000'
     const card = (
     <>
         <CardContent>
-            <Typography variant="h3" component="div">
+            <Typography variant="h4" component="div">
                 {tm}
             </Typography>
         </CardContent>
