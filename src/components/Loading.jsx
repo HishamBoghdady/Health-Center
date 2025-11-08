@@ -1,7 +1,15 @@
+import './loader.css'
+
 export default function Loading(){
     return(
         <>
-         <h1>LOADING page</h1>
+            <div className="contan">
+                <div class="loader-container">
+                    <div class="dot dot-1"></div>
+                    <div class="dot dot-2"></div>
+                    <div class="dot dot-3"></div>
+                </div>
+            </div>
         </>
     )
 }
