@@ -66,7 +66,7 @@ export default function Search() {
         }
     // --------------------------------------------------
     useEffect(()=>{
-       setTM(new Date().toLocaleString());
+        setTM(new Date().toLocaleDateString());
     },[])
     useEffect(()=>{
         fetchData()
@@ -208,21 +208,27 @@ let FTcolor='#000'
             ),
         },
     ];
+
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+const d = new Date();
+let day = days[d.getDay()];
+
     const card = (
     <>
         <CardContent>
             <Typography variant="h4" component="div">
                 {tm}
+                {" - "}
+                {day}
             </Typography>
         </CardContent>
     </>
     );
     return (
-        
         <Box sx={{ width: '100%' }}>
             <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0'}}>
-
-                
 
                 <TextField label="Search" fullWidth variant="outlined" 
                 value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
