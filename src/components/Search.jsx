@@ -13,7 +13,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-
+//
+// import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 // 
 import { ProvInfoUse } from '../context/ContextData';
 // ------------------
@@ -73,13 +75,34 @@ export default function Search() {
             // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 // ----------------------- Start=> Search Logic-----------------------
-    const [searchTerm, setSearchTerm] = useState('');
-    const filteredPatients = useMemo(() => {
-        return patient.filter((p) =>
-            p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase())
-        )}, [patient, searchTerm]);
-// ----------------------- End=> Search Logic-----------------------
+const [searchTerm, setSearchTerm] = useState('');
+const [selected, setSelected] = useState(''); // قيمها ستكون: "In" أو "Out" أو فارغة (All)
 
+const filteredPatients = useMemo(() => {
+  return patient.filter((p) => {
+    const matchName = p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchCondition =
+      selected === '' // All
+        ? true
+        : p.EnteryData.Condition.toLowerCase().includes(selected.toLowerCase());
+    return matchName && matchCondition;
+  });
+}, [patient, searchTerm, selected]);
+    // const [searchTerm, setSearchTerm] = useState('');
+    // const filteredPatients = useMemo(() => {
+    //     return patient.filter((p) =>
+    //         p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    //     )}, [patient, searchTerm]);
+
+
+
+    // const [selected,setSelected] = useState('');
+    // const filtredselected  =  useMemo(() => {
+    //     return patient.filter((p) =>
+    //         p.EnteryData.Condition.toLowerCase().includes(selected.toLowerCase())
+    //     )}, [patient, selected])
+// ----------------------- End=> Search Logic-----------------------
+//--------------------------------------------------------
 // ❌==========================Start=>:(Edit Section)==========================❌//
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [openEdit, setOpenEdit] = useState(false);
@@ -219,9 +242,7 @@ let day = days[d.getDay()];
     <>
         <CardContent>
             <Typography variant="h4" component="div">
-                {tm}
-                {" - "}
-                {day}
+                {tm}{" - "}{day}
             </Typography>
         </CardContent>
     </>
@@ -238,12 +259,26 @@ let day = days[d.getDay()];
 
                 
             </Stack>
+            <Stack direction="row" spacing={2} gap={2} sx={{ margin: '6px 0' }}>
+                <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{ flexDirection: 'row-reverse' }}>
+                    <Button variant={selected === 'in' ? 'contained' : 'outlined'} onClick={() => setSelected('in')}>
+                    In
+                    </Button>
+
+                    <Button variant={selected === 'out' ? 'contained' : 'outlined'} onClick={() => setSelected('out')}>
+                    Out
+                    </Button>
+
+                    <Button variant={selected === '' ? 'contained' : 'outlined'} onClick={() => setSelected('')}>
+                    All
+                    </Button>
+                </ButtonGroup>
+            </Stack>
             <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <Box sx={{ minWidth: 275 }}>
                     <Card variant="outlined">{card}</Card>
                 </Box>
             </Stack>
-
             {/*  Datatable  */}
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
             sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb'}}/>

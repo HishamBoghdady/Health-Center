@@ -1,6 +1,10 @@
+
+import Box from '@mui/material/Box';
+
 export default function Intro() {
   return (
     <>
+   
       <div style={{ direction: "ltr" }}>
         
         <h1>Welcome in Health Center</h1>
@@ -13,6 +17,8 @@ export default function Intro() {
           </div>
 
       </div>
+      
+      
     </>
   )
 }
