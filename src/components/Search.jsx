@@ -36,6 +36,12 @@ const splitDateTime = (datetimeStr) => {
     const [date] = datetimeStr.split('T');
     return { date };
 };
+function splitDateTime2(str) {
+  if (!str) return { date: null, time: null }; // إذا كانت null أو undefined أو فارغة
+
+  const [date, time] = str.split("T"); // تقسيم التاريخ والوقت
+  return { date, time };
+}
 export default function Search() {
     const {CollectionDate,CheckMoney}=utilsFuncs()
     const { patient, setPatient } = ProvInfoUse();
@@ -205,14 +211,19 @@ const [selected, setSelected] = useState(''); // قيمها ستكون: "In" أ�
 // ❌==========================End✅=>:(Dell Section)==========================❌ //
 
 //--------------------------------------------Rows Data--------------------------------------------//
+
 const flatData = useMemo(() => {
     return filteredPatients
         .slice() // نسخة حتى لا نعدل الأصل
         .sort((a, b) => new Date(a.EnteryData.EntryTime) - new Date(b.EnteryData.EntryTime)) // ترتيب حسب الإضافة (الأقدم أول)
-        .map((e, index) => ({
+        .map((e, index) => {
+            const exitDateObj = splitDateTime2(e.ExitData?.ExitTime);
+            return{
+                
             id: e.id,
             Num: index + 1, // رقم متسلسل مضبوط بعد الترتيب
             EntryTime: splitDateTime(e.EnteryData.EntryTime).date,
+            ExitData: exitDateObj.date ? exitDateObj.date : "is here",
             Name: e.PersonalData.Name,
             Address: e.PersonalData.Address,
             NumberDays: e.FinancialData.NumberDays,
@@ -221,7 +232,8 @@ const flatData = useMemo(() => {
             TypeDiseas: e.EnteryData.TypeDiseas,
             Condition: e.EnteryData.Condition,
             FullData: e,
-        }));
+            }
+        });
 }, [filteredPatients]);
 
     // const flatData = useMemo(() => {
@@ -261,6 +273,10 @@ let FTcolor='#000'
             renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor,fontWeight:'bold' }}>{params.value}</div>)},
         { field: 'EntryTime', headerName: <CalendarMonthIcon/> /*'تاريخ الدخول'*/, width: 130 , 
             renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
+
+        { field:"ExitData" , header:'exit' , width:80,
+            renderCell:(params)=>(<div style={{color: (params.value === 'is here') ? 'red': 'green'}}>{params.value}</div>)
+        },
         { field: 'NumberDays', headerName: 'عدد الأيام', width: 100 , 
             renderCell: (params) => (<div style={{  textAlign:'center' , backgroundColor:BKcolor}}>{params.value}</div>) },
         { field: 'AmountPaid', headerName: 'المدفوع', width: 80 ,
