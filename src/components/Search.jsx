@@ -270,7 +270,7 @@ let FTcolor='#000'
         { field: 'Num', headerName: 'م', width: 50 ,
             renderCell: (params) => (<div style={{  textAlign:'right'}}>{params.value}</div>)},
         { field: 'Name', headerName: <BadgeIcon/> /*'الاسم'*/, width: 150 , 
-            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor,fontWeight:'bold' }}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor,fontWeight:'bold' ,fontSize:'30'}}>{params.value}</div>)},
         { field: 'EntryTime', headerName: <CalendarMonthIcon/> /*'تاريخ الدخول'*/, width: 130 , 
             renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
 
@@ -382,7 +382,19 @@ let day = days[d.getDay()];
             </Stack>
             {/*  Datatable  */}
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
-            sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb'}}/>
+            // sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb',fontFamily:'sans-serif'}}
+            sx={{
+    fontFamily: 'Arial, sans-serif', // تغيير الخط العام
+    fontSize: '20px',                // حجم الخط
+    '& .MuiDataGrid-columnHeaders': {
+      fontFamily: 'Verdana, sans-serif', // خط رؤوس الأعمدة
+      fontWeight: 'bold',
+      fontSize: '16px',
+    },
+    '& .MuiDataGrid-cell': {
+      fontFamily: 'Tahoma, sans-serif', // خط الخلايا
+    },
+  }}/>
 
             {/* Edit Dialog */}
             <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth maxWidth="md">
