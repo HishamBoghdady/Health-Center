@@ -13,10 +13,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-//
-// import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-// 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+////
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import { ProvInfoUse } from '../context/ContextData';
 // ------------------
 // import CollectionDate from "../utils/CollectionDate"
@@ -38,7 +40,11 @@ export default function Search() {
     const {CollectionDate,CheckMoney}=utilsFuncs()
     const { patient, setPatient } = ProvInfoUse();
     const [tm,setTM] = useState("nnnnnnnnnll")
-    
+    const [value, setValue] = useState(null);
+
+    const [filtredDate,setFiltredDate]=useState({start:'',end:''})
+    //   const [applyFilter, setApplyFilter] = useState(false); // للتحكم بالزر Search
+    //   const [searchClicked, setSearchClicked] = useState(false); // لتنفيذ الفلترة عند الضغط فقط
     const fetchData = async () => {
             try{
                 // console.log("try")
@@ -78,16 +84,81 @@ export default function Search() {
 const [searchTerm, setSearchTerm] = useState('');
 const [selected, setSelected] = useState(''); // قيمها ستكون: "In" أو "Out" أو فارغة (All)
 
-const filteredPatients = useMemo(() => {
-  return patient.filter((p) => {
-    const matchName = p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchCondition =
-      selected === '' // All
-        ? true
-        : p.EnteryData.Condition.toLowerCase().includes(selected.toLowerCase());
-    return matchName && matchCondition;
-  });
-}, [patient, searchTerm, selected]);
+//
+ const filteredPatients = useMemo(() => {
+    return patient.filter((p) => {
+      // البحث بالاسم
+      const matchName = p.PersonalData.Name.toLowerCase().includes(
+        searchTerm.toLowerCase()
+      );
+
+      // فلترة الحالة
+      const matchCondition =
+        selected === ""
+          ? true
+          : p.EnteryData.Condition.toLowerCase().includes(
+              selected.toLowerCase()
+            );
+
+      // فلترة بالتاريخ
+      if (filtredDate.start && filtredDate.end) {
+        // ✅ EntryTime بصيغة ISO (صالح لـ new Date)
+        const entryDate = new Date(p.EnteryData.EntryTime);
+        const startDate = new Date(filtredDate.start);
+        const endDate = new Date(filtredDate.end);
+
+        // إزالة الوقت للمقارنة الصحيحة
+        entryDate.setHours(0, 0, 0, 0);
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(23, 59, 59, 999);
+
+        const matchDate = entryDate >= startDate && entryDate <= endDate;
+        return matchName && matchCondition && matchDate;
+      }
+
+      return matchName && matchCondition;
+    });
+  }, [patient, searchTerm, selected, filtredDate]);
+//
+// const filteredPatients = useMemo(() => {
+//     return patient.filter((p) => {
+//       // فلترة الاسم
+//         const matchName = p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase());
+//       // فلترة الحالة
+//         const matchCondition = selected === "" ? true : p.EnteryData.Condition.toLowerCase().includes( selected.toLowerCase());
+
+//       // فلترة التاريخ (تعمل فقط بعد الضغط على الزر)
+//         if (searchClicked && filtredDate.start && filtredDate.end) {
+//             const entryDate = new Date(p.EnteryData.Date); // تاريخ دخول المريض مثلًا
+//             const startDate = new Date(filtredDate.start);
+//             const endDate = new Date(filtredDate.end);
+
+//             // نزيل الوقت لتكون المقارنة صحيحة
+//             entryDate.setHours(0, 0, 0, 0);
+//             startDate.setHours(0, 0, 0, 0);
+//             endDate.setHours(23, 59, 59, 999);
+
+//             const matchDate = entryDate >= startDate && entryDate <= endDate;
+//             return matchName && matchCondition && matchDate;
+//         }
+
+//       // في حال لم يتم الضغط على الزر
+//         return matchName && matchCondition;
+//     });
+//     }, [patient, searchTerm, selected, filtredDate, searchClicked]);
+//
+// const filteredPatients = useMemo(() => {
+//     return patient.filter((p) => {
+//         const matchName = p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase());
+//         const matchCondition =
+//         selected === '' // All
+//             ? true
+//             : p.EnteryData.Condition.toLowerCase().includes(selected.toLowerCase());
+//         return matchName && matchCondition;
+//     });
+// }, [patient, searchTerm, selected]);
+
+// const [value,setValue]=useState('')
     // const [searchTerm, setSearchTerm] = useState('');
     // const filteredPatients = useMemo(() => {
     //     return patient.filter((p) =>
@@ -273,6 +344,20 @@ let day = days[d.getDay()];
                     All
                     </Button>
                 </ButtonGroup>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker label="start date " value={value}  onChange={(newValue) => setValue(newValue)}/>
+                </LocalizationProvider> */}
+                <TextField  type='date' label='start Date' value={filtredDate.start} onChange={(e)=>{
+                    setFiltredDate({...filtredDate,start:e.target.value})
+                }}/>
+                <TextField  type='date' label='end Date' value={filtredDate.end} onChange={(e)=>{
+                    setFiltredDate({...filtredDate,end:e.target.value})
+                }}/>
+
+                {/* <Button variant="outlined" startIcon={<DateRangeIcon />}
+                onClick={() => setSearchClicked((prev) => !prev)}>Search</Button> */}
+                <Button variant="outlined" 
+                onClick={() => setFiltredDate({...filtredDate,start:'',end:''})}>reset</Button>
             </Stack>
             <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <Box sx={{ minWidth: 275 }}>
