@@ -254,9 +254,9 @@ const flatData = useMemo(() => {
 
 //--------------------------------------------Columns--------------------------------------------//
 function color(num) {
-    if (num <= 5000) {
+    if (num < 5000) {
         return 'black';
-    } else if (num <= 9000 && num > 5000) {
+    } else if (num <= 9000 && num >= 5000) {
         return 'red';
     } else {
         return 'blue';
@@ -267,25 +267,25 @@ let BKcolor='#f8edeb'
 let FTcolor='#000'
 // 
     const columns = [
-        { field: 'Num', headerName: 'م', width: 50 ,
+        { field: 'Num', headerName: 'م', width: 45 ,
             renderCell: (params) => (<div style={{  textAlign:'right'}}>{params.value}</div>)},
-        { field: 'Name', headerName: <BadgeIcon/> /*'الاسم'*/, width: 150 , 
+        { field: 'Name', headerName: <BadgeIcon/> /*'الاسم'*/, width: 200 , 
             renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor,fontWeight:'bold' ,fontSize:'30'}}>{params.value}</div>)},
         { field: 'EntryTime', headerName: <CalendarMonthIcon/> /*'تاريخ الدخول'*/, width: 130 , 
             renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
 
-        { field:"ExitData" , header:'exit' , width:80,
-            renderCell:(params)=>(<div style={{color: (params.value === 'is here') ? 'red': 'green'}}>{params.value}</div>)
-        },
-        { field: 'NumberDays', headerName: 'عدد الأيام', width: 100 , 
+        // { field:"ExitData" , header:'exit' , width:80,
+        //     renderCell:(params)=>(<div style={{color: (params.value === 'is here') ? 'red': 'green'}}>{params.value}</div>)
+        // },
+        { field: 'NumberDays', headerName: 'عدد الأيام', width: 70 , 
             renderCell: (params) => (<div style={{  textAlign:'center' , backgroundColor:BKcolor}}>{params.value}</div>) },
-        { field: 'AmountPaid', headerName: 'المدفوع', width: 80 ,
+        { field: 'AmountPaid', headerName: 'المدفوع', width: 90 ,
             renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)},
-        { field: 'AmountOwed', headerName: 'المتبقي', width: 80 ,
+        { field: 'AmountOwed', headerName: 'المتبقي', width: 90 ,
             renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:'#fae1dd' , color: color(params.value) }}>{params.value}</div>)},
-        { field: 'TypeDiseas', headerName: 'التحاليل', width: 120 ,
+        { field: 'TypeDiseas', headerName: 'التحاليل', width: 130 ,
             renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:'#fae1dd',color:FTcolor}}>{params.value}</div>)},
-        { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 120 ,
+        { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 145 ,
             renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:BKcolor,color:FTcolor}}>{params.value}</div>)},
         { field: 'Condition', headerName: 'الحالة', width: 60 ,
             renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)
@@ -384,8 +384,10 @@ let day = days[d.getDay()];
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
             // sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb',fontFamily:'sans-serif'}}
             sx={{
+                backgroundColor:'#f8edeb',
     fontFamily: 'Arial, sans-serif', // تغيير الخط العام
-    fontSize: '20px',                // حجم الخط
+    fontSize: '20px',    
+    fontWeight: 'bold',            // حجم الخط
     '& .MuiDataGrid-columnHeaders': {
       fontFamily: 'Verdana, sans-serif', // خط رؤوس الأعمدة
       fontWeight: 'bold',
@@ -394,7 +396,8 @@ let day = days[d.getDay()];
     '& .MuiDataGrid-cell': {
       fontFamily: 'Tahoma, sans-serif', // خط الخلايا
     },
-  }}/>
+  }}
+  />
 
             {/* Edit Dialog */}
             <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth maxWidth="md">
