@@ -89,36 +89,26 @@ const [searchTerm, setSearchTerm] = useState('');
 const [selected, setSelected] = useState(''); // قيمها ستكون: "In" أو "Out" أو فارغة (All)
 
 //
- const filteredPatients = useMemo(() => {
+const filteredPatients = useMemo(() => {
     return patient.filter((p) => {
       // البحث بالاسم
-      const matchName = p.PersonalData.Name.toLowerCase().includes(
-        searchTerm.toLowerCase()
-      );
-
+        const matchName = p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase());
       // فلترة الحالة
-      const matchCondition =
-        selected === ""
-          ? true
-          : p.EnteryData.Condition.toLowerCase().includes(
-              selected.toLowerCase()
-            );
-
+        const matchCondition = selected === "" ? true : p.EnteryData.Condition.toLowerCase().includes(selected.toLowerCase());
       // فلترة بالتاريخ
-      if (filtredDate.start && filtredDate.end) {
-        // ✅ EntryTime بصيغة ISO (صالح لـ new Date)
-        const entryDate = new Date(p.EnteryData.EntryTime);
-        const startDate = new Date(filtredDate.start);
-        const endDate = new Date(filtredDate.end);
+        if (filtredDate.start && filtredDate.end) {
+            // ✅ EntryTime بصيغة ISO (صالح لـ new Date)
+            const entryDate = new Date(p.EnteryData.EntryTime);
+            const startDate = new Date(filtredDate.start);
+            const endDate = new Date(filtredDate.end);
+            // إزالة الوقت للمقارنة الصحيحة
+            entryDate.setHours(0, 0, 0, 0);
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(23, 59, 59, 999);
 
-        // إزالة الوقت للمقارنة الصحيحة
-        entryDate.setHours(0, 0, 0, 0);
-        startDate.setHours(0, 0, 0, 0);
-        endDate.setHours(23, 59, 59, 999);
-
-        const matchDate = entryDate >= startDate && entryDate <= endDate;
-        return matchName && matchCondition && matchDate;
-      }
+            const matchDate = entryDate >= startDate && entryDate <= endDate;
+            return matchName && matchCondition && matchDate;
+    }
 
       return matchName && matchCondition;
     });
