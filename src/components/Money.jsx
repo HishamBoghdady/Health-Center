@@ -347,6 +347,7 @@ const styles = {
     setPatientSed({ name: '', date: '' })
     setSelectedPerson([])
     setAddDetailMoney({ PaymentDate: addMoneyDetail.PaymentDate, AmountPaid: '' })
+    setSelectedPatientDetails()
   }
   return (
     <>
