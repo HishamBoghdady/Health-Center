@@ -14,11 +14,9 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Tooltip } from "@mui/material";
 ////
-import DateRangeIcon from '@mui/icons-material/DateRange';
+
 import { ProvInfoUse } from '../context/ContextData';
 // ------------------
 // import CollectionDate from "../utils/CollectionDate"
@@ -325,79 +323,93 @@ let FTcolor='#000'
 const d = new Date();
 let day = days[d.getDay()];
 
-    const card = (
-    <>
-        <CardContent>
-            <Typography variant="h4" component="div">
-                {tm}{" - "}{day}
-            </Typography>
-        </CardContent>
-    </>
-    );
     return (
         <Box sx={{ width: '100%' }}>
-            <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0'}}>
 
-                <TextField label="Search" fullWidth variant="outlined" 
-                value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-                
-                <Button variant="outline" startIcon={<UpdateIcon fontSize={'large'}/>} onClick={fetchData}
-                sx={{backgroundColor:'green',color:'White',textAlign:'center',borderRadius:'20%'}}></Button>
+            <Stack spacing={2} sx={{ mb: 2 }}>
+                {/* --- القسم العلوي: زر التحديث --- */}
+                <Stack direction="row" justifyContent="flex-start" alignItems="center"
+                    sx={{gap: 2, backgroundColor: "#f8f9fa",p: 1.5,borderRadius: 3,boxShadow: "0 2px 6px rgba(0,0,0,0.08)"}}>
+                    <Tooltip title="تحديث البيانات">
+                        <Button onClick={fetchData}
+                            sx={{bgcolor: "#2e7d32",color: "#fff",borderRadius: "50%",p: 1.3,minWidth: "48px",
+                            "&:hover": {bgcolor: "#1b5e20",transform: "scale(1.05)",transition: "all 0.2s ease",},
+                            }}>
+                            <UpdateIcon fontSize="medium" />
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="فلتره ب الحالة">
+                        <ButtonGroup variant="outlined" aria-label="filter buttons"
+                        sx={{flexDirection:'row-reverse',"& .MuiButton-root": {fontWeight: "bold",px: 3,textTransform: "capitalize"}}}>
+                            <Button variant={selected === "in" ? "contained" : "outlined"} color="success" onClick={() => setSelected("in")}>
+                                In
+                            </Button>
+                            <Button variant={selected === "out" ? "contained" : "outlined"} color="error" onClick={() => setSelected("out")}>
+                                Out
+                            </Button>
+                            <Button variant={selected === "" ? "contained" : "outlined"} color="primary" onClick={() => setSelected("")}>
+                                All
+                            </Button>
+                        </ButtonGroup>
+                    </Tooltip>
 
-                
+                    {/* نطاق التاريخ */}
+                    <Stack direction="row" spacing={2}>
+                        <TextField type="date" label="Start Date" value={filtredDate.start}
+                        onChange={(e) =>setFiltredDate({ ...filtredDate, start: e.target.value })}
+                        InputLabelProps={{ shrink: true }}
+                        sx={{"& .MuiOutlinedInput-root": { borderRadius: 2,},}}/>
+
+                        <TextField type="date" label="End Date" value={filtredDate.end}
+                            onChange={(e) =>setFiltredDate({ ...filtredDate, end: e.target.value })}
+                            InputLabelProps={{ shrink: true }}
+                            sx={{"& .MuiOutlinedInput-root": {borderRadius: 2,},}}/>
+                        <Button variant="outlined" color="warning" onClick={() => setFiltredDate({ ...filtredDate, start: "", end: "" })} 
+                        sx={{fontWeight: "bold",textTransform: "capitalize",}}>
+                        Reset
+                        </Button>
+                    </Stack>
+                    {/* <Card variant="outlined">{card}</Card> */}
+                    <Typography variant="h4" component="div">
+                        {tm}{" - "}{day}
+                    </Typography>
+                </Stack>
+
+                {/* --- القسم السفلي: الفلاتر --- */}
+                <Stack
+                    direction="row" flexWrap="wrap" alignItems="center" justifyContent="center"
+                    sx={{gap: 2,p: 2,backgroundColor: "#ffffff",borderRadius: 3,boxShadow: "0 2px 6px rgba(0,0,0,0.08)",}}>
+                    
+                    <TextField label="Search" variant="outlined" value={searchTerm} 
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    sx={{ width: 520, "& .MuiOutlinedInput-root": { borderRadius: 2,},}} />
+
+                    <Button variant="outlined" color="warning" onClick={() => setSearchTerm("")} 
+                        sx={{fontWeight: "bold",textTransform: "capitalize",}}>
+                        Reset {}
+                        Search
+                        </Button>
+                </Stack>
             </Stack>
-            <Stack direction="row" spacing={2} gap={2} sx={{ margin: '6px 0' }}>
-                <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{ flexDirection: 'row-reverse' }}>
-                    <Button variant={selected === 'in' ? 'contained' : 'outlined'} onClick={() => setSelected('in')}>
-                    In
-                    </Button>
 
-                    <Button variant={selected === 'out' ? 'contained' : 'outlined'} onClick={() => setSelected('out')}>
-                    Out
-                    </Button>
-
-                    <Button variant={selected === '' ? 'contained' : 'outlined'} onClick={() => setSelected('')}>
-                    All
-                    </Button>
-                </ButtonGroup>
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="start date " value={value}  onChange={(newValue) => setValue(newValue)}/>
-                </LocalizationProvider> */}
-                <TextField  type='date' label='start Date' value={filtredDate.start} onChange={(e)=>{
-                    setFiltredDate({...filtredDate,start:e.target.value})
-                }}/>
-                <TextField  type='date' label='end Date' value={filtredDate.end} onChange={(e)=>{
-                    setFiltredDate({...filtredDate,end:e.target.value})
-                }}/>
-
-                {/* <Button variant="outlined" startIcon={<DateRangeIcon />}
-                onClick={() => setSearchClicked((prev) => !prev)}>Search</Button> */}
-                <Button variant="outlined" 
-                onClick={() => setFiltredDate({...filtredDate,start:'',end:''})}>reset</Button>
-            </Stack>
-            <Stack direction="row" spacing={2} gap={2} sx={{margin:'6px 0',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                <Box sx={{ minWidth: 275 }}>
-                    <Card variant="outlined">{card}</Card>
-                </Box>
-            </Stack>
             {/*  Datatable  */}
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
             // sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb',fontFamily:'sans-serif'}}
             sx={{
                 backgroundColor:'#f8edeb',
-    fontFamily: 'Arial, sans-serif', // تغيير الخط العام
-    fontSize: '20px',    
-    fontWeight: 'bold',            // حجم الخط
-    '& .MuiDataGrid-columnHeaders': {
-      fontFamily: 'Verdana, sans-serif', // خط رؤوس الأعمدة
-      fontWeight: 'bold',
-      fontSize: '16px',
-    },
-    '& .MuiDataGrid-cell': {
-      fontFamily: 'Tahoma, sans-serif', // خط الخلايا
-    },
-  }}
-  />
+                fontFamily: 'Arial, sans-serif', // تغيير الخط العام
+                fontSize: '20px',    
+                fontWeight: 'bold',            // حجم الخط
+                    '& .MuiDataGrid-columnHeaders': {
+                            fontFamily: 'Verdana, sans-serif', // خط رؤوس الأعمدة
+                            fontWeight: 'bold',
+                            fontSize: '16px',
+                },
+                '& .MuiDataGrid-cell': {
+                fontFamily: 'Tahoma, sans-serif', // خط الخلايا
+                },
+            }}
+            />
 
             {/* Edit Dialog */}
             <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth maxWidth="md">
