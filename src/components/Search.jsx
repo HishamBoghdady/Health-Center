@@ -271,7 +271,7 @@ let FTcolor='#000'
         { field: 'AmountPaid', headerName: 'المدفوع', width: 90 ,
             renderCell: (params) => (<div style={{  textAlign:'center'}}>{params.value}</div>)},
         { field: 'AmountOwed', headerName: 'المتبقي', width: 90 ,
-            renderCell: (params) => (<div style={{  textAlign:'center',backgroundColor:'#dbdbdbff', color: color(params.value) }}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'center',backgroundColor:'#ebe5f3ff', color: color(params.value) }}>{params.value}</div>)},
         { field: 'TypeDiseas', headerName: 'التحاليل', width: 130 ,
             renderCell: (params) => (<div style={{  textAlign:'right',color:FTcolor}}>{params.value}</div>)},
         { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 145 ,
@@ -385,11 +385,11 @@ let day = days[d.getDay()];
 
             {/*  Datatable  */}
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
-            getRowClassName={(params) => {
-                if (params.row.AmountOwed < 5000) return "GR-min";
-                if (params.row.AmountOwed  >= 5000 && params.row.AmountOwed  <= 9000) return "YW-normal";
-                return "red-high";
-            }}
+            // getRowClassName={(params) => {
+            //     if (params.row.AmountOwed < 5000) return "GR-min";
+            //     if (params.row.AmountOwed  >= 5000 && params.row.AmountOwed  <= 9000) return "YW-normal";
+            //     return "red-high";
+            // }}
             // sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb',fontFamily:'sans-serif'}}
             sx={{
                 backgroundColor:'#ffffffff',
@@ -405,19 +405,19 @@ let day = days[d.getDay()];
                     fontFamily: 'Tahoma, sans-serif', // خط الخلايا
                     },
                     // 
-                    '& .GR-min': {
-                        // backgroundColor: '#00000070 !important',
-                        color: '#000 !important' ,
-                    },
+                    // '& .GR-min': {
+                    //     // backgroundColor: '#00000070 !important',
+                    //     color: '#000 !important' ,
+                    // },
 
-                    '& .YW-normal': {
-                        // backgroundColor: '#ff000088 !important',
-                        color: '#ff0000ff !important',
-                    },
-                    '& .red-high': {
-                        // backgroundColor: '#1100ff8e !important',
-                        color: '#0026ffff !important',
-                    },
+                    // '& .YW-normal': {
+                    //     // backgroundColor: '#ff000088 !important',
+                    //     color: '#ff0000ff !important',
+                    // },
+                    // '& .red-high': {
+                    //     // backgroundColor: '#1100ff8e !important',
+                    //     color: '#0026ffff !important',
+                    // },
             }}
             />
 
