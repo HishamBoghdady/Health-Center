@@ -257,26 +257,27 @@ let FTcolor='#000'
     const columns = [
         { field: 'Num', headerName: 'م', width: 45 ,
             renderCell: (params) => (<div style={{  textAlign:'right'}}>{params.value}</div>)},
+
         { field: 'Name', headerName: <BadgeIcon/> /*'الاسم'*/, width: 200 , 
-            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor,fontWeight:'bold' ,fontSize:'30'}}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'right' , color:FTcolor,fontWeight:'bold' ,fontSize:'30'}}>{params.value}</div>)},
         { field: 'EntryTime', headerName: <CalendarMonthIcon/> /*'تاريخ الدخول'*/, width: 130 , 
-            renderCell: (params) => (<div style={{  textAlign:'right' , backgroundColor:BKcolor ,color:FTcolor }}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'right'  ,color:FTcolor }}>{params.value}</div>)},
 
         // { field:"ExitData" , header:'exit' , width:80,
         //     renderCell:(params)=>(<div style={{color: (params.value === 'is here') ? 'red': 'green'}}>{params.value}</div>)
         // },
         { field: 'NumberDays', headerName: 'عدد الأيام', width: 70 , 
-            renderCell: (params) => (<div style={{  textAlign:'center' , backgroundColor:BKcolor}}>{params.value}</div>) },
+            renderCell: (params) => (<div style={{  textAlign:'center' }}>{params.value}</div>) },
         { field: 'AmountPaid', headerName: 'المدفوع', width: 90 ,
-            renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'center'}}>{params.value}</div>)},
         { field: 'AmountOwed', headerName: 'المتبقي', width: 90 ,
-            renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:'#fae1dd' , color: color(params.value) }}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'center', color: color(params.value) }}>{params.value}</div>)},
         { field: 'TypeDiseas', headerName: 'التحاليل', width: 130 ,
-            renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:'#fae1dd',color:FTcolor}}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'right',color:FTcolor}}>{params.value}</div>)},
         { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 145 ,
-            renderCell: (params) => (<div style={{  textAlign:'right', backgroundColor:BKcolor,color:FTcolor}}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'right',color:FTcolor}}>{params.value}</div>)},
         { field: 'Condition', headerName: 'الحالة', width: 60 ,
-            renderCell: (params) => (<div style={{  textAlign:'center', backgroundColor:BKcolor}}>{params.value}</div>)
+            renderCell: (params) => (<div style={{  textAlign:'center'}}>{params.value}</div>)
         },
         { field: 'actions', headerName: <ListAltIcon/>/*'إجراءات'*/, width: 240,
             
@@ -384,9 +385,14 @@ let day = days[d.getDay()];
 
             {/*  Datatable  */}
             <DataGrid rows={flatData} columns={columns} pageSize={5} rowsPerPageOptions={[5]} autoHeight 
+            getRowClassName={(params) => {
+                if (params.row.AmountOwed < 5000) return "GR-min";
+                if (params.row.AmountOwed  >= 5000 && params.row.AmountOwed  <= 9000) return "YW-normal";
+                return "red-high";
+            }}
             // sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb',fontFamily:'sans-serif'}}
             sx={{
-                backgroundColor:'#f8edeb',
+                backgroundColor:'#ffffffff',
                 fontFamily: 'Arial, sans-serif', // تغيير الخط العام
                 fontSize: '20px',    
                 fontWeight: 'bold',            // حجم الخط
@@ -394,10 +400,24 @@ let day = days[d.getDay()];
                             fontFamily: 'Verdana, sans-serif', // خط رؤوس الأعمدة
                             fontWeight: 'bold',
                             fontSize: '16px',
-                },
-                '& .MuiDataGrid-cell': {
-                fontFamily: 'Tahoma, sans-serif', // خط الخلايا
-                },
+                    },
+                    '& .MuiDataGrid-cell': {
+                    fontFamily: 'Tahoma, sans-serif', // خط الخلايا
+                    },
+                    // 
+                    '& .GR-min': {
+                        // backgroundColor: '#00000070 !important',
+                        color: '#000 !important' ,
+                    },
+
+                    '& .YW-normal': {
+                        // backgroundColor: '#ff000088 !important',
+                        color: '#ff0000ff !important',
+                    },
+                    '& .red-high': {
+                        // backgroundColor: '#1100ff8e !important',
+                        color: '#0026ffff !important',
+                    },
             }}
             />
 
