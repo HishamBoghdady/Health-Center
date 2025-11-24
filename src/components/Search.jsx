@@ -271,7 +271,7 @@ let FTcolor='#000'
         { field: 'AmountPaid', headerName: 'المدفوع', width: 90 ,
             renderCell: (params) => (<div style={{  textAlign:'center'}}>{params.value}</div>)},
         { field: 'AmountOwed', headerName: 'المتبقي', width: 90 ,
-            renderCell: (params) => (<div style={{  textAlign:'center', color: color(params.value) }}>{params.value}</div>)},
+            renderCell: (params) => (<div style={{  textAlign:'center',backgroundColor:'#F8F9FA', color: color(params.value) }}>{params.value}</div>)},
         { field: 'TypeDiseas', headerName: 'التحاليل', width: 130 ,
             renderCell: (params) => (<div style={{  textAlign:'right',color:FTcolor}}>{params.value}</div>)},
         { field: 'Address', headerName: <HomeIcon/>/*'العنوان'*/, width: 145 ,
