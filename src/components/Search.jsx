@@ -87,7 +87,9 @@ export default function Search() {
 // ----------------------- Start=> Search Logic-----------------------
 const [searchTerm, setSearchTerm] = useState('');
 const [selected, setSelected] = useState(''); // قيمها ستكون: "In" أو "Out" أو فارغة (All)
-
+// Filter by Council Codde
+const [CouncilCodeFilter,setCouncilCodeFilter] =useState("");
+// 
 //
 const filteredPatients = useMemo(() => {
     return patient.filter((p) => {
@@ -95,7 +97,18 @@ const filteredPatients = useMemo(() => {
         const matchName = p.PersonalData.Name.toLowerCase().includes(searchTerm.toLowerCase());
       // فلترة الحالة
         const matchCondition = selected === "" ? true : p.EnteryData.Condition.toLowerCase().includes(selected.toLowerCase());
-      // فلترة بالتاريخ
+        // CouncilCode
+        //افتراضاً: councilCodeFilter قد يكون: "", "has", "empty"
+        const matchCouncilCode =
+        CouncilCodeFilter === ""
+            ? true
+            : CouncilCodeFilter === "has"
+            ? (p.EnteryData.CouncilCode && p.EnteryData.CouncilCode !== "")
+            : CouncilCodeFilter === "empty"
+                ? (!p.EnteryData.CouncilCode || p.EnteryData.CouncilCode === "")
+                : p.EnteryData.CouncilCode?.toLowerCase() === CouncilCodeFilter.toLowerCase();
+
+        // فلترة بالتاريخ
         if (filtredDate.start && filtredDate.end) {
             // ✅ EntryTime بصيغة ISO (صالح لـ new Date)
             const entryDate = new Date(p.EnteryData.EntryTime);
@@ -107,12 +120,12 @@ const filteredPatients = useMemo(() => {
             endDate.setHours(23, 59, 59, 999);
 
             const matchDate = entryDate >= startDate && entryDate <= endDate;
-            return matchName && matchCondition && matchDate;
+            return matchName && matchCondition && matchDate && matchCouncilCode;
     }
 
-      return matchName && matchCondition;
+      return matchName && matchCondition  && matchCouncilCode;
     });
-  }, [patient, searchTerm, selected, filtredDate]);
+  }, [patient, searchTerm, selected, filtredDate, CouncilCodeFilter]);
 //
 // const filteredPatients = useMemo(() => {
 //     return patient.filter((p) => {
@@ -329,7 +342,8 @@ let day = days[d.getDay()];
                             <UpdateIcon fontSize="medium" />
                         </Button>
                     </Tooltip>
-                    <Tooltip title="فلتره ب الحالة">
+                    <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',gap:1}}>
+                        <Tooltip title="فلتره ب الحالة">
                         <ButtonGroup variant="outlined" aria-label="filter buttons"
                         sx={{flexDirection:'row-reverse',"& .MuiButton-root": {fontWeight: "bold",px: 3,textTransform: "capitalize"}}}>
                             <Button variant={selected === "in" ? "contained" : "outlined"} color="success" onClick={() => setSelected("in")}>
@@ -344,6 +358,24 @@ let day = days[d.getDay()];
                         </ButtonGroup>
                     </Tooltip>
 
+                    <Tooltip title="فلتره ب المجلس">
+                        <ButtonGroup variant="outlined" aria-label="filter buttons"
+                        sx={{flexDirection:'row-reverse',"& .MuiButton-root": {fontWeight: "bold",px: 3,textTransform: "capitalize"}}}>
+                            <Button variant={CouncilCodeFilter === "has" ? "contained" : "outlined"} color="success" 
+                            onClick={() => setCouncilCodeFilter("has")}>
+                                المجلس
+                            </Button>
+                            {/* <Button variant={CouncilCodeFilter === "empty" ? "contained" : "outlined"} color="error" 
+                            onClick={() => setCouncilCodeFilter("empty")}>
+                                empty
+                            </Button> */}
+                            <Button variant={CouncilCodeFilter === "clear" ? "contained" : "outlined"} color="error" 
+                            onClick={() => setCouncilCodeFilter("")}>
+                                clear
+                            </Button>
+                        </ButtonGroup>
+                    </Tooltip>
+                    </Box>
                     {/* نطاق التاريخ */}
                     <Stack direction="row" spacing={2}>
                         <TextField type="date" label="Start Date" value={filtredDate.start}
