@@ -267,6 +267,9 @@ function color(num) {
 let BKcolor='#f8edeb'
 let FTcolor='#000'
 // 
+const totalPaid = flatData.reduce((sum, r) => sum + (r.AmountPaid || 0), 0);
+const totalOwed = flatData.reduce((sum, r) => sum + (r.AmountOwed || 0), 0);
+//
     const columns = [
         { field: 'Num', headerName: 'م', width: 45 ,
             renderCell: (params) => (<div style={{  textAlign:'right',color:FTcolor}}>{params.value}</div>)},
@@ -422,6 +425,7 @@ let day = days[d.getDay()];
                 if (params.row.AmountOwed  >= 5000 && params.row.AmountOwed  <= 9000) return "YW-normal";
                 return "red-high";
             }}
+            
             // sx={{ direction: 'rtl' ,fontWeight:'bold',backgroundColor:'#f8edeb',fontFamily:'sans-serif'}}
             sx={{
                 backgroundColor:'#ffffffff',
@@ -452,7 +456,17 @@ let day = days[d.getDay()];
                     },
             }}
             />
-
+            {/* ⭐ عرض المجموع تحت الجدول */}
+            <div style={{display:'flex',justifyContent:'space-around'}}>
+                <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold", 
+                    fontSize: 18,backgroundColor:'#00ff4c91', padding:'10px',borderRadius:'10px'}}>
+                المجموع الكلي للمدفوع: <span style={{color:'green'}}>{totalPaid}</span>
+            </div>
+            <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold",
+                fontSize: 18,backgroundColor:'#ff000091', padding:'10px',borderRadius:'10px'}}>
+                المجموع الكلي للمتبقي: <span style={{color:'red'}}>{totalOwed}</span>
+            </div>
+            </div>
             {/* Edit Dialog */}
             <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth maxWidth="md">
                 <DialogContent>
