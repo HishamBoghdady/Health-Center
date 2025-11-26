@@ -463,7 +463,7 @@ let day = days[d.getDay()];
                 المجموع الكلي للمدفوع: <span style={{color:'green'}}>{totalPaid}</span>
             </div>
             <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold",
-                fontSize: 18,backgroundColor:'#ff000091', padding:'10px',borderRadius:'10px'}}>
+                fontSize: 18,backgroundColor:'#ff00002d', padding:'10px',borderRadius:'10px'}}>
                 المجموع الكلي للمتبقي: <span style={{color:'red'}}>{totalOwed}</span>
             </div>
             </div>
