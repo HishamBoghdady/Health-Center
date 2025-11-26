@@ -459,12 +459,12 @@ let day = days[d.getDay()];
             {/* ⭐ عرض المجموع تحت الجدول */}
             <div style={{display:'flex',justifyContent:'space-around'}}>
                 <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold", 
-                    fontSize: 18,backgroundColor:'#00ff4c91', padding:'10px',borderRadius:'10px'}}>
-                المجموع الكلي للمدفوع: <span style={{color:'#fff'}}>{totalPaid}</span>
+                    fontSize: 18/*,backgroundColor:'#00ff4c91'*/, padding:'10px',borderRadius:'10px'}}>
+                المجموع الكلي للمدفوع: <span style={{color:'green'}}>{totalPaid}</span>
             </div>
             <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold",
-                fontSize: 18,backgroundColor:'#ff000091', padding:'10px',borderRadius:'10px'}}>
-                المجموع الكلي للمتبقي: <span style={{color:'#fff'}}>{totalOwed}</span>
+                fontSize: 18/*,backgroundColor:'#ff000091'*/, padding:'10px',borderRadius:'10px'}}>
+                المجموع الكلي للمتبقي: <span style={{color:'red'}}>{totalOwed}</span>
             </div>
             </div>
             {/* Edit Dialog */}
