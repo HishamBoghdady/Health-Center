@@ -40,6 +40,12 @@ function splitDateTime2(str) {
   const [date, time] = str.split("T"); // تقسيم التاريخ والوقت
   return { date, time };
 }
+////////
+function formatNumber(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//////////
 export default function Search() {
     const {CollectionDate,CheckMoney}=utilsFuncs()
     const { patient, setPatient } = ProvInfoUse();
@@ -460,11 +466,11 @@ let day = days[d.getDay()];
             <div style={{display:'flex',justifyContent:'space-around'}}>
                 <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold", 
                     fontSize: 18/*,backgroundColor:'#00ff4c91'*/, padding:'10px',borderRadius:'10px',border:'2px solid green'}}>
-                المجموع الكلي للمدفوع: <span style={{color:'green'}}>{totalPaid} EGP</span>
+                المجموع الكلي للمدفوع: <span style={{color:'green'}}>{formatNumber(totalPaid) } EGP</span>
                 </div>
                 <div style={{ marginTop: 10, textAlign: "right", fontWeight: "bold",
                 fontSize: 18/*,backgroundColor:'#ff000091'*/, padding:'10px',borderRadius:'10px',border:'2px solid red'}}>
-                المجموع الكلي للمتبقي: <span style={{color:'red'}}>{totalOwed} EGP</span>
+                المجموع الكلي للمتبقي: <span style={{color:'red'}}>{formatNumber(totalOwed)} EGP</span>
                 </div>
             </div>
             {/* Edit Dialog */}
